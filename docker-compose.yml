@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+
+  mongoDB:
+    image: mongo:latest
+    container_name: mongoDB
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "1888:27017"
+    networks:
+      - whatsapp-net
+  
+  whatsapp-api:
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    image: whatsapp-api
+    container_name: whatsapp-api
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - whatsapp-net
+    environment:
+      BROWSER_URL: 'ws://browser:3001'
+    depends_on:
+      - browser
+  
+  browser:
+    image: browserless/chrome:latest
+    hostname: browser
+    restart: always
+    volumes:
+      - ./server/.wwebjs_auth/session/:/usr/src/app/user-data-dir
+    environment:
+      CONNECTION_TIMEOUT: -1
+      KEEP_ALIVE: 'true'
+      WORKSPACE_EXPIRE_DAYS: 1
+      ENABLE_CORS: 'true'
+      CHROME_REFRESH_TIME: 86400000
+      DEFAULT_BLOCK_ADS: 'true'
+      FUNCTION_ENABLE_INCOGNITO_MODE: 'true'
+      ENABLE_XVBF: 'true'
+      CHROME_PATH: '/usr/bin/google-chrome'
+      USE_CHROME_STABLE: 'true'
+      NODE_ENV: 'production'
+      MAX_CONCURRENT_SESSIONS: 1
+      DEFAULT_USER_DATA_DIR: /usr/src/app/user-data-dir
+    ports:
+      - 3001:3001
+    networks:
+      - whatsapp-net
+
+networks:
+  whatsapp-net:
+    driver: bridge

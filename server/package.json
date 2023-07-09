@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.3.1",
+    "qrcode": "^1.5.3",
+    "whatsapp-web.js": "^1.21.0",
+    "wwebjs-mongo": "^1.1.0"
+  }
+}
