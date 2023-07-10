@@ -16,7 +16,7 @@ services:
   
   whatsapp-api:
     build:
-      context: ./server/
+      context: ./whatsapp-api
       dockerfile: Dockerfile
     image: whatsapp-api
     container_name: whatsapp-api
@@ -35,7 +35,7 @@ services:
     hostname: browser
     restart: always
     volumes:
-      - ./server/.wwebjs_auth/session/:/usr/src/app/user-data-dir
+      - ./whatsapp-api/.wwebjs_auth/session/:/usr/src/app/user-data-dir
     environment:
       CONNECTION_TIMEOUT: -1
       KEEP_ALIVE: 'true'
