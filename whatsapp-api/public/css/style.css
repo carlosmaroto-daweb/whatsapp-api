@@ -110,6 +110,42 @@ body {
     background-repeat: no-repeat;
 }
 
+.whatsapp-reload {
+    display: none;                    /*flex*/
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--chat-background);
+    position: relative;
+}
+
+.reload-icons {
+    display: flex;
+    align-items: center;
+}
+
+.reload-icons i {
+    margin: 0px 20px;
+    font-size: 60px;
+    color: var(--theme-mode);
+}
+
+.reload-gif {
+    width: 200px;
+    height: 200px;
+    background-image: url(../img/reload-light.gif);          /*reload-dark.gif*/
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.whatsapp-reload h3 {
+    margin: 0px;
+    color: var(--text-secondary);
+}
+
 .whatsapp-container {
     display: none;                    /*flex*/
 }

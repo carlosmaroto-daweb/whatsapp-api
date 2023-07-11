@@ -73,8 +73,14 @@ io.on('connection', function(socketClient){
       });
     });
     
-    client.on('ready', () => {
+    client.on('ready', async() => {
       console.log('Client is ready!');
+      socketClient.emit('chat-reload');
+      let chats = await client.getChats();
+      await new Promise(resolve => setTimeout(resolve, 10000));
+      //let messages = await chats[1].fetchMessages({limit: Number.MAX_VALUE});
+      socketClient.emit('show-chats', chats);
+      //socketClient.emit('show-messages', messages);
       socketClient.emit('client-ready');
     });
 

@@ -6,8 +6,74 @@ socket.on('qr', function(data) {
     document.getElementsByClassName('qr-img')[0].style.background = 'url(data:image/png;base64,'+data+')';
 });
 
-socket.on('client-ready', function() {
+socket.on('chat-reload', function() {
     document.getElementsByClassName('whatsapp-qr')[0].style.display = "none";
+    document.getElementsByClassName('whatsapp-reload')[0].style.display = "flex";
+});
+
+socket.on('show-chats', function(chats) {
+    const chatLists = document.getElementsByClassName('chat-lists')[0];
+    let listItem;
+    chats.forEach(chat => {
+        listItem = document.createElement("div");
+        listItem.setAttribute("class", "list-item");
+        let name = chat.name;
+        if(name.length>35) {
+            name = name.substring(0, 35);
+            name += "...";
+        }
+        let lastMessageBody = chat.lastMessage.body;
+        if(lastMessageBody.length>35) {
+            lastMessageBody = lastMessageBody.substring(0, 35);
+            lastMessageBody += "...";
+        }
+        let dateFormat = new Date(chat.lastMessage.timestamp);
+        let lastMessageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        let unreadCount = chat.unreadCount;
+        let classUnseenTime;
+        let classUnreadCount;
+        if(unreadCount>0) {
+            classUnseenTime = "unseen-time";
+            classUnreadCount = "unseen-messages";
+        }
+        else {
+            unreadCount = "";
+        }
+        listItem.innerHTML = `
+            <div class="list-item-img"></div>
+            <div class="list-item-text">
+                <div class="list-item-name">${name}</div>
+                <div class="list-item-last-msg">${lastMessageBody}</div>
+            </div>
+            <div class="list-item-info">
+                <div class="list-item-time ${classUnseenTime}">${lastMessageTimestamp}</div>
+                <div class="list-item-unseen-messages ${classUnreadCount}">${unreadCount}</div>
+            </div>
+        `;
+        chatLists.appendChild(listItem);
+    });
+
+    let listItems = document.getElementsByClassName('list-item');
+    for(let i=0; i<listItems.length; i++){
+        listItems[i].addEventListener("click", function() {
+            for(let j=0; j<listItems.length; j++){
+                if(i==j && listItems[j].getAttribute("class") != "list-item active") {
+                    listItems[i].setAttribute("class", "list-item active");
+                }
+                else {
+                    listItems[j].setAttribute("class", "list-item");
+                }
+            }
+        });
+    };
+});
+
+socket.on('show-messages', function(messages) {
+    
+});
+
+socket.on('client-ready', function() {
+    document.getElementsByClassName('whatsapp-reload')[0].style.display = "none";
     document.getElementsByClassName('whatsapp-container')[0].style.display = "flex";
 
     const themeMode = document.getElementsByClassName('theme-mode')[0];
@@ -37,6 +103,7 @@ socket.on('client-ready', function() {
             document.getElementsByClassName('qr-bg')[0].style.opacity = "0.06";
             document.getElementsByClassName('qr-img')[0].style.background = "url(../img/loading-dark.gif)";
             document.getElementsByClassName('chat-bg')[0].style.opacity = "0.06";
+            document.getElementsByClassName('reload-gif')[0].style.background = "url(../img/reload-dark.gif)";
         }
         else {
             let styles = `
@@ -63,6 +130,7 @@ socket.on('client-ready', function() {
             document.getElementsByClassName('qr-bg')[0].style.opacity = "0.4";
             document.getElementsByClassName('qr-img')[0].style.background = "url(../img/loading-light.gif)";
             document.getElementsByClassName('chat-bg')[0].style.opacity = "0.4";
+            document.getElementsByClassName('reload-gif')[0].style.background = "url(../img/reload-light.gif)";
         }
     });
 });
