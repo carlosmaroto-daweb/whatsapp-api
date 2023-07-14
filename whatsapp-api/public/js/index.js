@@ -27,8 +27,20 @@ socket.on('show-chats', function(chats) {
             lastMessageBody = lastMessageBody.substring(0, 35);
             lastMessageBody += "...";
         }
-        let dateFormat = new Date(chat.lastMessage.timestamp);
-        let lastMessageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        let dateFormat = new Date(chat.lastMessage.timestamp * 1000);
+        let currentDate = new Date();
+        let lastMessageTimestamp;
+        if((currentDate-dateFormat) > 24*60*60*1000) {
+            if((currentDate-dateFormat) > 48*60*60*1000) {
+                lastMessageTimestamp = dateFormat.getDate()+"/"+(dateFormat.getMonth()+1)+"/"+dateFormat.getFullYear().toString().substring(2);
+            }
+            else {
+                lastMessageTimestamp = "Ayer";
+            }
+        }
+        else {
+            lastMessageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        }
         let unreadCount = chat.unreadCount;
         let classUnseenTime;
         let classUnreadCount;
