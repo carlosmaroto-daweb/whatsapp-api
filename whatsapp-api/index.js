@@ -8,13 +8,10 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const fs = require("fs");
-/*
-var messages = [{
-  id: 1,
-  text: "Hola soy un mensaje",
-  author: "Carlos Maroto"
-}];
-*/
+
+var chats;
+var messages = [];
+
 app.use(express.static('public'));
 
 server.listen(3000, function(){
@@ -76,11 +73,13 @@ io.on('connection', function(socketClient){
     client.on('ready', async() => {
       console.log('Client is ready!');
       socketClient.emit('chat-reload');
-      let chats = await client.getChats();
-      await new Promise(resolve => setTimeout(resolve, 10000));
-      //let messages = await chats[1].fetchMessages({limit: Number.MAX_VALUE});
-      socketClient.emit('show-chats', chats);
-      //socketClient.emit('show-messages', messages);
+      chats = await client.getChats();
+      await new Promise(resolve => setTimeout(resolve, 20000));
+      for (let i=0; i<chats.length; i++) {
+        messages[i] = await chats[i].fetchMessages({limit: Number.MAX_VALUE});
+      }
+      await socketClient.emit('save-messages', messages);
+      await socketClient.emit('show-chats', chats);
       socketClient.emit('client-ready');
     });
 

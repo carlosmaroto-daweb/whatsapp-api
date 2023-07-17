@@ -1,4 +1,5 @@
 const socket = io.connect('http://localhost:3000', {'forceNew' : true});
+var chatElements = [];
 
 socket.on('qr', function(data) {
     document.getElementsByClassName('qr-img')[0].style.width = "340px";
@@ -9,6 +10,39 @@ socket.on('qr', function(data) {
 socket.on('chat-reload', function() {
     document.getElementsByClassName('whatsapp-qr')[0].style.display = "none";
     document.getElementsByClassName('whatsapp-reload')[0].style.display = "flex";
+});
+
+socket.on('save-messages', function(messages) {
+    let elem;
+    let dateFormat;
+    let messageTimestamp;
+    for (let i=0; i<messages.length; i++) {
+        chatElements[i] = [];
+        for (let j=0; j<messages[i].length; j++) {
+            if (!messages[i][j].fromMe && (j==0 || messages[i][j-1].fromMe)){
+                if(j!=0) {
+                    chatElements[i].push(elem);
+                }
+                elem = document.createElement("div");
+                elem.setAttribute("class", "get-conversation");
+            } else if (messages[i][j].fromMe && (j==0 || !messages[i][j-1].fromMe)){
+                if(j!=0) {
+                    chatElements[i].push(elem);
+                }
+                elem = document.createElement("div");
+                elem.setAttribute("class", "sent-conversation");
+            }
+            dateFormat = new Date(messages[i][j].timestamp * 1000);
+            messageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+            elem.innerHTML += `
+                <div class="msg-body">
+                    <div class="msg-text">${messages[i][j].body}</div>
+                    <div class="msg-time">${messageTimestamp}</div>
+                </div>
+            `;
+        }
+        chatElements[i].push(elem);
+    }
 });
 
 socket.on('show-chats', function(chats) {
@@ -66,22 +100,27 @@ socket.on('show-chats', function(chats) {
     });
 
     let listItems = document.getElementsByClassName('list-item');
+    let listMsg = document.getElementsByClassName('list-msg')[0];
     for(let i=0; i<listItems.length; i++){
         listItems[i].addEventListener("click", function() {
             for(let j=0; j<listItems.length; j++){
                 if(i==j && listItems[j].getAttribute("class") != "list-item active") {
                     listItems[i].setAttribute("class", "list-item active");
+                    listMsg.innerHTML = "";
+                    for (let q=0; q<chatElements[i].length; q++) {
+                        listMsg.appendChild(chatElements[i][q]);
+                    }
+                    listMsg.scrollTo(0, listMsg.scrollHeight);
                 }
                 else {
                     listItems[j].setAttribute("class", "list-item");
+                    if(i==j) {
+                        listMsg.innerHTML = "";
+                    }
                 }
             }
         });
     };
-});
-
-socket.on('show-messages', function(messages) {
-    
 });
 
 socket.on('client-ready', function() {
