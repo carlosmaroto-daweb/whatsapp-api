@@ -63,9 +63,10 @@ socket.on('show-chats', function(chats) {
         }
         let dateFormat = new Date(chat.lastMessage.timestamp * 1000);
         let currentDate = new Date();
+        currentDate = currentDate.setHours(0, 0, 0, 0);
         let lastMessageTimestamp;
-        if((currentDate-dateFormat) > 24*60*60*1000) {
-            if((currentDate-dateFormat) > 48*60*60*1000) {
+        if((currentDate-dateFormat) > 0) {
+            if((currentDate-dateFormat) > 24*60*60*1000) {
                 lastMessageTimestamp = dateFormat.getDate()+"/"+(dateFormat.getMonth()+1)+"/"+dateFormat.getFullYear().toString().substring(2);
             }
             else {
