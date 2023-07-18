@@ -1,4 +1,5 @@
 const socket = io.connect('http://localhost:3000', {'forceNew' : true});
+var contactsImage;
 var chatElements = [];
 
 socket.on('qr', function(data) {
@@ -10,6 +11,10 @@ socket.on('qr', function(data) {
 socket.on('chat-reload', function() {
     document.getElementsByClassName('whatsapp-qr')[0].style.display = "none";
     document.getElementsByClassName('whatsapp-reload')[0].style.display = "flex";
+});
+
+socket.on('save-contacts-image', function(contactsImageSent) {
+    contactsImage = contactsImageSent;
 });
 
 socket.on('save-messages', function(messages) {
@@ -88,23 +93,39 @@ socket.on('save-messages', function(messages) {
 socket.on('show-chats', function(chats) {
     const chatLists = document.getElementsByClassName('chat-lists')[0];
     let listItem;
+    let img;
+    let position = 0;
+    let name;
+    let lastMessageBody;
+    let dateFormat;
+    let currentDate;
+    let lastMessageTimestamp;
+    let unreadCount;
+    let classUnseenTime;
+    let classUnreadCount;
     chats.forEach(chat => {
         listItem = document.createElement("div");
         listItem.setAttribute("class", "list-item");
-        let name = chat.name;
+        if(contactsImage[position] != null){
+            img = 'style="background-image: url(' + contactsImage[position] + ');"';
+        }
+        else {
+            img = '';
+        }
+        position++;
+        name = chat.name;
         if(name.length>35) {
             name = name.substring(0, 35);
             name += "...";
         }
-        let lastMessageBody = chat.lastMessage.body;
+        lastMessageBody = chat.lastMessage.body;
         if(lastMessageBody.length>35) {
             lastMessageBody = lastMessageBody.substring(0, 35);
             lastMessageBody += "...";
         }
-        let dateFormat = new Date(chat.lastMessage.timestamp * 1000);
-        let currentDate = new Date();
+        dateFormat = new Date(chat.lastMessage.timestamp * 1000);
+        currentDate = new Date();
         currentDate = currentDate.setHours(0, 0, 0, 0);
-        let lastMessageTimestamp;
         if((currentDate-dateFormat) > 0) {
             if((currentDate-dateFormat) > 24*60*60*1000) {
                 lastMessageTimestamp = dateFormat.getDate()+"/"+(dateFormat.getMonth()+1)+"/"+dateFormat.getFullYear().toString().substring(2);
@@ -116,18 +137,18 @@ socket.on('show-chats', function(chats) {
         else {
             lastMessageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
         }
-        let unreadCount = chat.unreadCount;
-        let classUnseenTime;
-        let classUnreadCount;
+        unreadCount = chat.unreadCount;
         if(unreadCount>0) {
             classUnseenTime = "unseen-time";
             classUnreadCount = "unseen-messages";
         }
         else {
             unreadCount = "";
+            classUnseenTime = "";
+            classUnreadCount = "";
         }
         listItem.innerHTML = `
-            <div class="list-item-img"></div>
+            <div class="list-item-img"${img}></div>
             <div class="list-item-text">
                 <div class="list-item-name">${name}</div>
                 <div class="list-item-last-msg">${lastMessageBody}</div>

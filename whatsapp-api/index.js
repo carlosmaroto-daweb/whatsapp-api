@@ -11,6 +11,7 @@ const fs = require("fs");
 
 var chats;
 var messages = [];
+var contactsImage = [];
 
 app.use(express.static('public'));
 
@@ -75,6 +76,8 @@ io.on('connection', function(socketClient){
       socketClient.emit('chat-reload');
       client.getChats()
       .then(allChats => setMsg(allChats))
+      .then(() => setContactsImage())
+      .then(() => socketClient.emit('save-contacts-image', contactsImage))
       .then(() => socketClient.emit('save-messages', messages))
       .then(() => socketClient.emit('show-chats', chats))
       .then(() => socketClient.emit('client-ready'));
@@ -84,6 +87,14 @@ io.on('connection', function(socketClient){
       chats = allChats;
       for (let i=0; i<chats.length; i++) {
         messages[i] = await chats[i].fetchMessages({limit: Number.MAX_SAFE_INTEGER});
+      }
+    }
+
+    async function setContactsImage() {
+      let contact;
+      for (let i=0; i<chats.length; i++) {
+        contact = await chats[i].getContact();
+        contactsImage[i] = await contact.getProfilePicUrl();
       }
     }
 
