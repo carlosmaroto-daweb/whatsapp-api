@@ -147,6 +147,9 @@ socket.on('show-chats', function(chats) {
             for(let j=0; j<listItems.length; j++){
                 if(i==j && listItems[j].getAttribute("class") != "list-item active") {
                     listItems[i].setAttribute("class", "list-item active");
+                    document.getElementsByClassName('chat-option')[0].style.display = "flex";
+                    document.getElementsByClassName('chat-body')[0].style.height = "calc(100vh - 122px)";
+                    document.getElementsByClassName('keyboard')[0].style.display = "flex";
                     listMsg.innerHTML = "";
                     for (let q=0; q<chatElements[i].length; q++) {
                         listMsg.appendChild(chatElements[i][q]);
@@ -156,7 +159,16 @@ socket.on('show-chats', function(chats) {
                 else {
                     listItems[j].setAttribute("class", "list-item");
                     if(i==j) {
-                        listMsg.innerHTML = "";
+                        document.getElementsByClassName('chat-option')[0].style.display = "none";
+                        document.getElementsByClassName('chat-body')[0].style.height = "calc(100vh)";
+                        document.getElementsByClassName('keyboard')[0].style.display = "none";
+                        listMsg.innerHTML = `
+                        <div class="individual-chats-bg">
+                            <i class="bi bi-chat-right-dots-fill"></i>
+                            <h2>Mensajes individuales</h2>
+                            <h4>Habla con tus contactos o grupos de WhatsApp.</h4>
+                        </div>
+                        `;
                     }
                 }
             }
