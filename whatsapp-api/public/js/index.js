@@ -14,25 +14,65 @@ socket.on('chat-reload', function() {
 
 socket.on('save-messages', function(messages) {
     let elem;
+    let elemDate;
     let dateFormat;
+    let dateInfo;
+    let currentDate = new Date();
+    currentDate = currentDate.setHours(0, 0, 0, 0);
     let messageTimestamp;
     for (let i=0; i<messages.length; i++) {
         chatElements[i] = [];
         for (let j=0; j<messages[i].length; j++) {
-            if (!messages[i][j].fromMe && (j==0 || messages[i][j-1].fromMe)){
-                if(j!=0) {
-                    chatElements[i].push(elem);
+            if(j==0) {
+                elemDate = document.createElement("div");
+                elemDate.setAttribute("class", "info-msg");
+                dateInfo = new Date(messages[i][j].timestamp * 1000);
+                if((currentDate-dateInfo) > 24*60*60*1000) {
+                    messageTimestamp = dateInfo.getDate()+"/"+(dateInfo.getMonth()+1)+"/"+dateInfo.getFullYear().toString().substring(2);
                 }
-                elem = document.createElement("div");
-                elem.setAttribute("class", "get-conversation");
-            } else if (messages[i][j].fromMe && (j==0 || !messages[i][j-1].fromMe)){
-                if(j!=0) {
-                    chatElements[i].push(elem);
+                else {
+                    messageTimestamp = "AYER";
                 }
-                elem = document.createElement("div");
-                elem.setAttribute("class", "sent-conversation");
+                elemDate.textContent = messageTimestamp;
+                chatElements[i].push(elemDate);
+                dateInfo = dateInfo.setHours(0, 0, 0, 0);
             }
             dateFormat = new Date(messages[i][j].timestamp * 1000);
+            if((dateFormat-dateInfo) > 24*60*60*1000) {
+                chatElements[i].push(elem);
+                elemDate = document.createElement("div");
+                elemDate.setAttribute("class", "info-msg");
+                if((currentDate-dateFormat) > 24*60*60*1000) {
+                    messageTimestamp = dateFormat.getDate()+"/"+(dateFormat.getMonth()+1)+"/"+dateFormat.getFullYear().toString().substring(2);
+                }
+                else {
+                    messageTimestamp = "AYER";
+                }
+                elemDate.textContent = messageTimestamp;
+                chatElements[i].push(elemDate);
+                dateInfo = dateFormat.setHours(0, 0, 0, 0);
+                elem = document.createElement("div");
+                if (!messages[i][j].fromMe){
+                    elem.setAttribute("class", "get-conversation");
+                } else if (messages[i][j].fromMe){
+                    elem.setAttribute("class", "sent-conversation");
+                }
+            }
+            else {
+                if (!messages[i][j].fromMe && (j==0 || messages[i][j-1].fromMe)){
+                    if(j!=0) {
+                        chatElements[i].push(elem);
+                    }
+                    elem = document.createElement("div");
+                    elem.setAttribute("class", "get-conversation");
+                } else if (messages[i][j].fromMe && (j==0 || !messages[i][j-1].fromMe)){
+                    if(j!=0) {
+                        chatElements[i].push(elem);
+                    }
+                    elem = document.createElement("div");
+                    elem.setAttribute("class", "sent-conversation");
+                }
+            }
             messageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
             elem.innerHTML += `
                 <div class="msg-body">
