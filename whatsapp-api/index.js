@@ -70,18 +70,22 @@ io.on('connection', function(socketClient){
       });
     });
     
-    client.on('ready', async() => {
+    client.on('ready', () => {
       console.log('Client is ready!');
       socketClient.emit('chat-reload');
-      chats = await client.getChats();
-      await new Promise(resolve => setTimeout(resolve, 20000));
-      for (let i=0; i<chats.length; i++) {
-        messages[i] = await chats[i].fetchMessages({limit: Number.MAX_VALUE});
-      }
-      await socketClient.emit('save-messages', messages);
-      await socketClient.emit('show-chats', chats);
-      socketClient.emit('client-ready');
+      client.getChats()
+      .then(allChats => setMsg(allChats))
+      .then(() => socketClient.emit('save-messages', messages))
+      .then(() => socketClient.emit('show-chats', chats))
+      .then(() => socketClient.emit('client-ready'));
     });
+
+    async function setMsg(allChats) {
+      chats = allChats;
+      for (let i=0; i<chats.length; i++) {
+        messages[i] = await chats[i].fetchMessages({limit: Number.MAX_SAFE_INTEGER});
+      }
+    }
 
     client.on('remote_session_saved', () => {
       console.log('Session is saved!');
