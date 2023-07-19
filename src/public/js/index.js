@@ -76,8 +76,8 @@ socket.on('save-messages', function(messages) {
                 }
                 elemDate.textContent = messageTimestamp;
                 chatElements[i].push(elemDate);
-                dateInfo = dateFormat;
-                dateInfo.setHours(0, 0, 0, 0);
+                dateInfo = dateFormat.setHours(0, 0, 0, 0);
+                dateFormat = new Date(messages[i][j].timestamp * 1000);
                 elem = document.createElement("div");
                 if (!messages[i][j].fromMe){
                     elem.setAttribute("class", "get-conversation");
