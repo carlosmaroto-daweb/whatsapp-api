@@ -76,6 +76,8 @@ io.on('connection', function(socketClient){
       socketClient.emit('chat-reload');
       client.getChats()
       .then(allChats => setMsg(allChats))
+      .then(() => getClientImage())
+      .then(clientImage => socketClient.emit('save-client-image', clientImage))
       .then(() => setContactsImage())
       .then(() => socketClient.emit('save-contacts-image', contactsImage))
       .then(() => socketClient.emit('save-messages', messages))
@@ -88,6 +90,22 @@ io.on('connection', function(socketClient){
       for (let i=0; i<chats.length; i++) {
         messages[i] = await chats[i].fetchMessages({limit: Number.MAX_SAFE_INTEGER});
       }
+    }
+
+    async function getClientImage() {
+      let user = client.info.wid.user;
+      let contacts = await client.getContacts();
+      let currentClient = null;
+      for (let i=0; i<contacts.length && currentClient == null; i++) {
+        if(contacts[i].id.user == user) {
+          currentClient = contacts[i];
+        }
+      }
+      let clientImage = null;
+      if(currentClient != null) {
+        clientImage = await currentClient.getProfilePicUrl();
+      }
+      return clientImage;
     }
 
     async function setContactsImage() {

@@ -13,6 +13,12 @@ socket.on('chat-reload', function() {
     document.getElementsByClassName('whatsapp-reload')[0].style.display = "flex";
 });
 
+socket.on('save-client-image', function(clientImage) {
+    if(clientImage != null) {
+        document.getElementsByClassName('profile')[0].setAttribute("style", "background-image: url(" + clientImage + ");");
+    }
+});
+
 socket.on('save-contacts-image', function(contactsImageSent) {
     contactsImage = contactsImageSent;
 });
