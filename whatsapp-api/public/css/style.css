@@ -2,36 +2,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 
 :root {
-    --background-primary: #111b21;            /*#111b21 #ffffff*/
-    --background-secondary: #182229;          /*#182229 #fffffff2*/
-    --background-tertiary: #202c33;           /*#202c33 #f0f2f5*/
-    --background-fourth: #2a3942;             /*#2a3942 #e4e5e9*/
-    --background-fifth: #ffffff29;            /*#ffffff29 #00000029*/
+    --background-primary: #ffffff;            /*#111b21 #ffffff*/
+    --background-secondary: #fffffff2;        /*#182229 #fffffff2*/
+    --background-tertiary: #f0f2f5;           /*#202c33 #f0f2f5*/
+    --background-fourth: #e4e5e9;             /*#2a3942 #e4e5e9*/
+    --background-fifth: #00000029;            /*#ffffff29 #00000029*/
 
-    --chat-background: #0b141a;               /*#0b141a #eae6df*/
+    --chat-background: #eae6df;               /*#0b141a #eae6df*/
 
-    --border-primary: #111b21;                /*#111b21 #ffffff*/
-    --border-secondary: #6b778056;            /*#6b778056 #d1d7db*/
+    --border-primary: #ffffff;                /*#111b21 #ffffff*/
+    --border-secondary: #d1d7db;              /*#6b778056 #d1d7db*/
     --border-tertiary: #8696a026;
 
-    --text-primary: #e9edef;                  /*#e9edef #111b21*/
-    --text-secondary: #d1d7db;                /*#d1d7db #3b4a54*/
-    --text-tertiary: #8696a0;                 /*#8696a0 #667781*/
+    --text-primary: #111b21;                  /*#e9edef #111b21*/
+    --text-secondary: #3b4a54;                /*#d1d7db #3b4a54*/
+    --text-tertiary: #667781;                 /*#8696a0 #667781*/
 
-    --icon-primary: #aebac1;                  /*#aebac1 #54656f*/
+    --icon-primary: #54656f;                  /*#aebac1 #54656f*/
     --icon-secondary: #8696a0;
 
     --notification-text: #54656f;
     --notification-background: #ffeecd;
 
-    --unseen-messages: #00a884;               /*#00a884 #1fa855*/
-    --message-background-primary: #005c4b;    /*#005c4b #d9fdd3*/
-    --message-background-secondary: #202c33;  /*#202c33 #ffffff*/
+    --unseen-messages: #1fa855;               /*#00a884 #1fa855*/
+    --message-background-primary: #d9fdd3;    /*#005c4b #d9fdd3*/
+    --message-background-secondary: #ffffff;  /*#202c33 #ffffff*/
     
-    --theme-mode: #00a884;                    /*#00a884 #1fa855*/
+    --theme-mode: #1fa855;                    /*#00a884 #1fa855*/
 
-    --filter-primary: invert(11%) sepia(14%) saturate(1386%) hue-rotate(158deg) brightness(94%) contrast(85%); /*filter: invert(11%) sepia(14%) saturate(1386%) hue-rotate(158deg) brightness(94%) contrast(85%);      filter: invert(99%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(109%) contrast(101%);*/
-    --filter-secondary: invert(24%) sepia(86%) saturate(653%) hue-rotate(126deg) brightness(95%) contrast(103%); /*filter: invert(24%) sepia(86%) saturate(653%) hue-rotate(126deg) brightness(95%) contrast(103%);      filter: invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%);*/
+    --filter-primary: invert(99%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(109%) contrast(101%);      /* invert(11%) sepia(14%) saturate(1386%) hue-rotate(158deg) brightness(94%) contrast(85%)      invert(99%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(109%) contrast(101%)*/
+    --filter-secondary: invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%);  /* invert(24%) sepia(86%) saturate(653%) hue-rotate(126deg) brightness(95%) contrast(103%)      invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%)*/
 
     scroll-behavior: smooth;
 }
@@ -53,7 +53,7 @@ body {
 .qr-bg {
     width: 100%;
     height: 100%;
-    opacity: 0.06;                    /*0.06 0.4*/
+    opacity: 0.4;                    /*0.06 0.4*/
     background-image: url(../img/background.png);
 }
 
@@ -104,7 +104,7 @@ body {
 .qr-img {
     width: 200px;
     height: 200px;
-    background-image: url(../img/loading-dark.gif);          /*loading-dark.gif loading-light.gif*/
+    background-image: url(../img/loading-light.gif);          /*loading-dark.gif loading-light.gif*/
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -135,7 +135,7 @@ body {
 .reload-gif {
     width: 200px;
     height: 200px;
-    background-image: url(../img/reload-dark.gif);          /*reload-dark.gif reload-light.gif*/
+    background-image: url(../img/reload-light.gif);          /*reload-dark.gif reload-light.gif*/
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -473,7 +473,7 @@ body {
 .chat-bg {
     width: 100%;
     height: 100%;
-    opacity: 0.06;                    /*0.06 0.4*/
+    opacity: 0.4;                    /*0.06 0.4*/
     background-image: url(../img/background.png);
 }
 

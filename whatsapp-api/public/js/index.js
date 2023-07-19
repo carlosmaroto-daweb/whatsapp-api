@@ -261,18 +261,6 @@ socket.on('client-ready', function() {
 });
 
 /*
-function render(data) {
-    var html = data.map(function(elem, index) {
-        return(`
-            <div>
-                ${elem.author}
-                ${elem.text}
-            </div>
-        `);
-    }).join(" ");
-    document.getElementById('').innerHTML = html;
-}
-
 function addMessage(e) {
     var payload = {
         author: document.getElementById('').value,
