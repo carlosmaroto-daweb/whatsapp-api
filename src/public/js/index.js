@@ -25,6 +25,15 @@ socket.on('save-messages', function(messages) {
     let currentDate = new Date();
     currentDate = currentDate.setHours(0, 0, 0, 0);
     let messageTimestamp;
+    const days = [
+        'DOMINGO',
+        'LUNES',
+        'MARTES',
+        'MIÉRCOLES',
+        'JUEVES',
+        'VIERNES',
+        'SÁBADO',
+    ];
     for (let i=0; i<messages.length; i++) {
         chatElements[i] = [];
         for (let j=0; j<messages[i].length; j++) {
@@ -32,30 +41,43 @@ socket.on('save-messages', function(messages) {
                 elemDate = document.createElement("div");
                 elemDate.setAttribute("class", "info-msg");
                 dateInfo = new Date(messages[i][j].timestamp * 1000);
-                if((currentDate-dateInfo) > 24*60*60*1000) {
+                if((currentDate-dateInfo) > 144*60*60*1000) {
                     messageTimestamp = dateInfo.getDate()+"/"+(dateInfo.getMonth()+1)+"/"+dateInfo.getFullYear().toString().substring(2);
                 }
-                else {
+                else if((currentDate-dateInfo) <= 144*60*60*1000 && (currentDate-dateInfo) > 24*60*60*1000) {
+                    messageTimestamp = days[dateInfo.getDay()];
+                }
+                else if((currentDate-dateInfo) <= 24*60*60*1000 && (currentDate-dateInfo) > 0) {
                     messageTimestamp = "AYER";
+                }
+                else if((currentDate-dateInfo) <= 0) {
+                    messageTimestamp = "HOY";
                 }
                 elemDate.textContent = messageTimestamp;
                 chatElements[i].push(elemDate);
                 dateInfo = dateInfo.setHours(0, 0, 0, 0);
             }
             dateFormat = new Date(messages[i][j].timestamp * 1000);
-            if((dateFormat-dateInfo) > 24*60*60*1000) {
+            if((dateFormat-dateInfo) >= 24*60*60*1000) {
                 chatElements[i].push(elem);
                 elemDate = document.createElement("div");
                 elemDate.setAttribute("class", "info-msg");
-                if((currentDate-dateFormat) > 24*60*60*1000) {
+                if((currentDate-dateFormat) > 144*60*60*1000) {
                     messageTimestamp = dateFormat.getDate()+"/"+(dateFormat.getMonth()+1)+"/"+dateFormat.getFullYear().toString().substring(2);
                 }
-                else {
+                else if((currentDate-dateFormat) <= 144*60*60*1000 && (currentDate-dateFormat) > 24*60*60*1000) {
+                    messageTimestamp = days[dateFormat.getDay()];
+                }
+                else if((currentDate-dateFormat) <= 24*60*60*1000 && (currentDate-dateFormat) > 0) {
                     messageTimestamp = "AYER";
+                }
+                else if((currentDate-dateFormat) <= 0) {
+                    messageTimestamp = "HOY";
                 }
                 elemDate.textContent = messageTimestamp;
                 chatElements[i].push(elemDate);
-                dateInfo = dateFormat.setHours(0, 0, 0, 0);
+                dateInfo = dateFormat;
+                dateInfo.setHours(0, 0, 0, 0);
                 elem = document.createElement("div");
                 if (!messages[i][j].fromMe){
                     elem.setAttribute("class", "get-conversation");
@@ -103,6 +125,15 @@ socket.on('show-chats', function(chats) {
     let unreadCount;
     let classUnseenTime;
     let classUnreadCount;
+    const days = [
+        'Domingo',
+        'Lunes',
+        'Martes',
+        'Miércoles',
+        'Jueves',
+        'Viernes',
+        'Sábado',
+    ];
     chats.forEach(chat => {
         listItem = document.createElement("div");
         listItem.setAttribute("class", "list-item");
@@ -126,15 +157,16 @@ socket.on('show-chats', function(chats) {
         dateFormat = new Date(chat.lastMessage.timestamp * 1000);
         currentDate = new Date();
         currentDate = currentDate.setHours(0, 0, 0, 0);
-        if((currentDate-dateFormat) > 0) {
-            if((currentDate-dateFormat) > 24*60*60*1000) {
-                lastMessageTimestamp = dateFormat.getDate()+"/"+(dateFormat.getMonth()+1)+"/"+dateFormat.getFullYear().toString().substring(2);
-            }
-            else {
-                lastMessageTimestamp = "Ayer";
-            }
+        if((currentDate-dateFormat) > 144*60*60*1000) {
+            lastMessageTimestamp = dateFormat.getDate()+"/"+(dateFormat.getMonth()+1)+"/"+dateFormat.getFullYear().toString().substring(2);
         }
-        else {
+        else if((currentDate-dateFormat) <= 144*60*60*1000 && (currentDate-dateFormat) > 24*60*60*1000) {
+            lastMessageTimestamp = days[dateFormat.getDay()];
+        }
+        else if((currentDate-dateFormat) <= 24*60*60*1000 && (currentDate-dateFormat) > 0) {
+            lastMessageTimestamp = "Ayer";
+        }
+        else if((currentDate-dateFormat) <= 0) {
             lastMessageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
         }
         unreadCount = chat.unreadCount;
