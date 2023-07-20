@@ -594,9 +594,26 @@ body {
 
 .msg-body {
     display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     margin: 1px 0px;
-    padding: 5px 12px 6px;
+    padding: 3px;
     border-radius: 7.5px;
+}
+
+.msg-image {
+    width: 330px;
+    height: 223px;
+    border-radius: 7.5px;
+    margin-bottom: 5px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.msg-normal {
+    display: flex;
+    padding: 2px 9px 3px;
 }
 
 .msg-text {
@@ -607,10 +624,11 @@ body {
 }
 
 .msg-time {
-    min-width: 60px;
+    min-width: 50px;
     align-self: flex-end;
     margin-left: 10px;
     font-size: 11px;
+    text-align: right;
     color: var(--text-secondary);
 }
 

@@ -40,6 +40,8 @@ socket.on('save-messages', function(messages) {
         'VIERNES',
         'SÁBADO',
     ];
+    let image;
+    let style;
     for (let i=0; i<messages.length; i++) {
         chatElements[i] = [];
         for (let j=0; j<messages[i].length; j++) {
@@ -107,10 +109,21 @@ socket.on('save-messages', function(messages) {
                 }
             }
             messageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+            if(messages[i][j].type == "image") {
+                image = '<div class="msg-image" style="background-image: url(../img/default-profile-picture.jpg)"></div>';
+                style = 'style="max-width: 312px;"';
+            }
+            else {
+                image = "";
+                style = "";
+            }
             elem.innerHTML += `
                 <div class="msg-body">
-                    <div class="msg-text">${messages[i][j].body}</div>
-                    <div class="msg-time">${messageTimestamp}</div>
+                    ${image}
+                    <div class="msg-normal" ${style}>
+                        <div class="msg-text">${messages[i][j].body}</div>
+                        <div class="msg-time">${messageTimestamp}</div>
+                    </div>
                 </div>
             `;
         }
