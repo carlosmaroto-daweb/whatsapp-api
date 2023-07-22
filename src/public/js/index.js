@@ -1,5 +1,6 @@
 const socket = io.connect('http://localhost:3000', {'forceNew' : true});
 var contactsImage;
+var msgMedia;
 var chatElements = [];
 
 socket.on('qr', function(data) {
@@ -22,6 +23,20 @@ socket.on('save-client-image', function(clientImage) {
 socket.on('save-contacts-image', function(contactsImageSent) {
     contactsImage = contactsImageSent;
 });
+
+socket.on('save-msg-media', function(msgMediaSent) {
+    msgMedia = msgMediaSent;
+});
+
+function getMedia(id) {
+    let media = null;
+    for (let i=0; i<msgMedia.length && media == null; i++) {
+        if(msgMedia[i].id == id) {
+            media = msgMedia[i].data;
+        }
+    }
+    return media;
+}
 
 socket.on('save-messages', function(messages) {
     let elem;
@@ -109,9 +124,12 @@ socket.on('save-messages', function(messages) {
                 }
             }
             messageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-            if(messages[i][j].type == "image") {
-                image = '<div class="msg-image" style="background-image: url(../img/default-profile-picture.jpg)"></div>';
-                style = 'style="max-width: 312px;"';
+            if(messages[i][j].hasMedia) {
+                if(messages[i][j].type == "image") {
+                    image = getMedia(messages[i][j].id.id);
+                    image = '<div class="msg-image" style="background-image: url(data:image/png;base64,' + image + ')"></div>';
+                    style = 'style="max-width: 312px;"';
+                }
             }
             else {
                 image = "";

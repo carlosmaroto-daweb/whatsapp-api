@@ -12,6 +12,7 @@ const fs = require("fs");
 var chats;
 var messages = [];
 var contactsImage = [];
+var msgMedia = [];
 
 app.use(express.static('public'));
 
@@ -80,12 +81,15 @@ io.on('connection', function(socketClient){
       .then(clientImage => socketClient.emit('save-client-image', clientImage))
       .then(() => setContactsImage())
       .then(() => socketClient.emit('save-contacts-image', contactsImage))
+      .then(() => setMsgMedia())
+      .then(() => socketClient.emit('save-msg-media', msgMedia))
       .then(() => socketClient.emit('save-messages', messages))
       .then(() => socketClient.emit('show-chats', chats))
       .then(() => socketClient.emit('client-ready'));
     });
 
     async function setMsg(allChats) {
+      console.log('Msg is saving...');
       chats = allChats;
       for (let i=0; i<chats.length; i++) {
         messages[i] = await chats[i].fetchMessages({limit: Number.MAX_SAFE_INTEGER});
@@ -93,6 +97,7 @@ io.on('connection', function(socketClient){
     }
 
     async function getClientImage() {
+      console.log('Client image is saving...');
       let user = client.info.wid.user;
       let contacts = await client.getContacts();
       let currentClient = null;
@@ -109,10 +114,24 @@ io.on('connection', function(socketClient){
     }
 
     async function setContactsImage() {
+      console.log('Contacts images is saving...');
       let contact;
       for (let i=0; i<chats.length; i++) {
         contact = await chats[i].getContact();
         contactsImage[i] = await contact.getProfilePicUrl();
+      }
+    }
+
+    async function setMsgMedia() {
+      console.log('Msg media is saving...');
+      let media;
+      for (let i=0; i<messages.length; i++) {
+        for (let j=0; j<messages[i].length; j++) {
+          if(messages[i][j].hasMedia) {
+            media = await messages[i][j].downloadMedia();
+            msgMedia.push({id: messages[i][j].id.id, data: media.data});
+          }
+        }
       }
     }
 
