@@ -129,7 +129,9 @@ io.on('connection', function(socketClient){
         for (let j=0; j<messages[i].length; j++) {
           if(messages[i][j].hasMedia) {
             media = await messages[i][j].downloadMedia();
-            msgMedia.push({id: messages[i][j].id.id, data: media.data});
+            if(media.data) {
+              msgMedia.push({id: messages[i][j].id.id, data: media.data});
+            }
           }
         }
       }
