@@ -603,12 +603,9 @@ body {
 
 .msg-image {
     width: 330px;
-    height: 223px;
     border-radius: 7.5px;
     margin-bottom: 5px;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .msg-normal {

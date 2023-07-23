@@ -127,7 +127,7 @@ socket.on('save-messages', function(messages) {
             if(messages[i][j].hasMedia) {
                 if(messages[i][j].type == "image") {
                     image = getMedia(messages[i][j].id.id);
-                    image = '<div class="msg-image" style="background-image: url(data:image/png;base64,' + image + ')"></div>';
+                    image = `<img class="msg-image" src="data:image/png;base64,${image}"/>`;
                     style = 'style="max-width: 312px;"';
                 }
             }
