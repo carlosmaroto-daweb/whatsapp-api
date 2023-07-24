@@ -28,6 +28,7 @@ services:
     environment:
       BROWSER_URL: 'ws://browser:3001'
     depends_on:
+      - mongoDB
       - browser
   
   browser:

@@ -614,6 +614,13 @@ body {
     cursor: pointer;
 }
 
+.msg-video {
+    max-width: 330px;
+    border-radius: 7.5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
 .msg-normal {
     display: flex;
     padding: 2px 9px 3px;

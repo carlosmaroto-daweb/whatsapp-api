@@ -55,7 +55,7 @@ socket.on('save-messages', function(messages) {
         'VIERNES',
         'SÁBADO',
     ];
-    let image;
+    let media;
     let style;
     for (let i=0; i<messages.length; i++) {
         chatElements[i] = [];
@@ -125,36 +125,43 @@ socket.on('save-messages', function(messages) {
             }
             messageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
             if(messages[i][j].hasMedia) {
-                if(messages[i][j].type == "image") {
-                    image = getMedia(messages[i][j].id.id);
-                    if(image != null) {
-                        image = `<img class="msg-image" src="data:image/png;base64,${image}"/>`;
+                media = getMedia(messages[i][j].id.id);
+                if(media) {
+                    if(messages[i][j].type == "image") {
+                        media = `<img class="msg-image" src="data:image/png;base64,${media}"/>`;
                         style = 'style="max-width: 312px;"';
                     }
+                    else if(messages[i][j].type == "sticker") {
+                        media = `<img class="msg-sticker" src="data:image/png;base64,${media}"/>`;
+                        style = "";
+                    }
+                    else if(messages[i][j].type == "video") {
+                        if(messages[i][j].isGif) {
+                            media = `<video class="msg-video" src="data:video/mp4;base64,${media}" controls loop></video>`;
+                            style = 'style="max-width: 312px;"';
+                        }
+                        else {
+                            media = `<video class="msg-video" src="data:video/mp4;base64,${media}" controls></video>`;
+                            style = 'style="max-width: 312px;"';
+                        }
+                    }
                     else {
-                        image = "";
+                        media = "";
                         style = "";
                     }
                 }
-                else if(messages[i][j].type == "sticker") {
-                    image = getMedia(messages[i][j].id.id);
-                    if(image != null) {
-                        image = `<img class="msg-sticker" src="data:image/png;base64,${image}"/>`;
-                        style = "";
-                    }
-                    else {
-                        image = "";
-                        style = "";
-                    }
+                else {
+                    media = "";
+                    style = "";
                 }
             }
             else {
-                image = "";
+                media = "";
                 style = "";
             }
             elem.innerHTML += `
                 <div class="msg-body">
-                    ${image}
+                    ${media}
                     <div class="msg-normal" ${style}>
                         <div class="msg-text">${messages[i][j].body}</div>
                         <div class="msg-time">${messageTimestamp}</div>
