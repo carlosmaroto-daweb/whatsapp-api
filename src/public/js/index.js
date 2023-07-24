@@ -127,8 +127,25 @@ socket.on('save-messages', function(messages) {
             if(messages[i][j].hasMedia) {
                 if(messages[i][j].type == "image") {
                     image = getMedia(messages[i][j].id.id);
-                    image = `<img class="msg-image" src="data:image/png;base64,${image}"/>`;
-                    style = 'style="max-width: 312px;"';
+                    if(image != null) {
+                        image = `<img class="msg-image" src="data:image/png;base64,${image}"/>`;
+                        style = 'style="max-width: 312px;"';
+                    }
+                    else {
+                        image = "";
+                        style = "";
+                    }
+                }
+                else if(messages[i][j].type == "sticker") {
+                    image = getMedia(messages[i][j].id.id);
+                    if(image != null) {
+                        image = `<img class="msg-sticker" src="data:image/png;base64,${image}"/>`;
+                        style = "";
+                    }
+                    else {
+                        image = "";
+                        style = "";
+                    }
                 }
             }
             else {

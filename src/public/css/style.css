@@ -608,6 +608,12 @@ body {
     cursor: pointer;
 }
 
+.msg-sticker {
+    width: 190px;
+    border-radius: 7.5px;
+    cursor: pointer;
+}
+
 .msg-normal {
     display: flex;
     padding: 2px 9px 3px;
