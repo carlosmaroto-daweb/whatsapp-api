@@ -92,7 +92,7 @@ io.on('connection', function(socketClient){
       console.log('Msg is saving...');
       chats = allChats;
       for (let i=0; i<chats.length; i++) {
-        messages[i] = await chats[i].fetchMessages({limit: 100}); // messages[i] = await chats[i].fetchMessages({limit: Number.MAX_SAFE_INTEGER});
+        messages[i] = await chats[i].fetchMessages({limit: 25}); // ({limit: Number.MAX_SAFE_INTEGER});
       }
     }
 

@@ -145,6 +145,10 @@ socket.on('save-messages', function(messages) {
                             style = 'style="max-width: 312px;"';
                         }
                     }
+                    else if(messages[i][j].type == "ptt") {
+                        media = `<audio class="msg-audio" src="data:audio/mpeg;base64,${media}" controls controlsList="nodownload noplaybackrate"></audio>`;
+                        style = "";
+                    }
                     else {
                         media = "";
                         style = "";
@@ -315,9 +319,12 @@ socket.on('client-ready', function() {
                 --unseen-messages: #00a884;
                 --message-background-primary: #005c4b;
                 --message-background-secondary: #202c33;
+                --message-background-tertiary: #006d59;
+                --message-background-fourth: #2a3942;
                 --theme-mode: #00a884;
                 --filter-primary: invert(11%) sepia(14%) saturate(1386%) hue-rotate(158deg) brightness(94%) contrast(85%);
                 --filter-secondary: invert(24%) sepia(86%) saturate(653%) hue-rotate(126deg) brightness(95%) contrast(103%);
+                --filter-tertiary: invert(88%) sepia(10%) saturate(176%) hue-rotate(184deg) brightness(110%) contrast(87%);
             `;
             document.documentElement.style.cssText = styles;
             document.getElementsByClassName('qr-bg')[0].style.opacity = "0.06";
@@ -342,9 +349,12 @@ socket.on('client-ready', function() {
                 --unseen-messages: #1fa855;
                 --message-background-primary: #d9fdd3;
                 --message-background-secondary: #ffffff;
+                --message-background-tertiary: #c2fab8;
+                --message-background-fourth: #f0f2f5;
                 --theme-mode: #1fa855;
                 --filter-primary: invert(99%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(109%) contrast(101%);
                 --filter-secondary: invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%);
+                --filter-tertiary: invert(8%) sepia(13%) saturate(1671%) hue-rotate(159deg) brightness(91%) contrast(93%);
             `;
             document.documentElement.style.cssText = styles;
             document.getElementsByClassName('qr-bg')[0].style.opacity = "0.4";
