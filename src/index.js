@@ -116,9 +116,16 @@ io.on('connection', function(socketClient){
     async function setContactsImage() {
       console.log('Contacts images is saving...');
       let contact;
+      let img;
       for (let i=0; i<chats.length; i++) {
         contact = await chats[i].getContact();
-        contactsImage[i] = await contact.getProfilePicUrl();
+        img = await contact.getProfilePicUrl();
+        if(img) {
+          contactsImage[i] = img;
+        }
+        else {
+          contactsImage[i] = "../img/default-profile-picture.jpg";
+        }
       }
     }
 

@@ -647,6 +647,23 @@ body {
     text-shadow: none;
 }
 
+.msg-document {
+    position: relative;
+}
+
+.msg-document a {
+    position : absolute;
+    top : 0;
+    left : 0;
+    width : calc(100% - 17.5px);
+    height : calc(100% - 10px);
+}
+
+.msg-document embed {
+    border-radius: 7.5px;
+    margin-bottom: 5px;
+}
+
 .msg-normal {
     display: flex;
     padding: 2px 9px 3px;

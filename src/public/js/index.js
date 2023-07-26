@@ -137,17 +137,32 @@ socket.on('save-messages', function(messages) {
                     }
                     else if(messages[i][j].type == "video") {
                         if(messages[i][j].isGif) {
-                            media = `<video class="msg-video" src="data:video/mp4;base64,${media}" controls loop></video>`;
+                            media = `<video class="msg-video" src="data:video/mp4;base64,${media}" controls loop muted disablePictureInPicture controlsList="nofullscreen nodownload noplaybackrate"></video>`;
                             style = 'style="max-width: 312px;"';
                         }
                         else {
-                            media = `<video class="msg-video" src="data:video/mp4;base64,${media}" controls></video>`;
+                            media = `<video class="msg-video" src="data:video/mp4;base64,${media}" controls disablePictureInPicture controlsList="nodownload noplaybackrate"></video>`;
                             style = 'style="max-width: 312px;"';
                         }
                     }
                     else if(messages[i][j].type == "ptt") {
                         media = `<audio class="msg-audio" src="data:audio/mpeg;base64,${media}" controls controlsList="nodownload noplaybackrate"></audio>`;
                         style = "";
+                    }
+                    else if(messages[i][j].type == "document") {
+                        if(messages[i][j].body.slice(-4) == ".pdf") {
+                            media = `
+                            <div class="msg-document">
+                                <a href="data:application/pdf;base64,${media}"></a>
+                                <embed src="data:application/pdf;base64,${media}" type="application/pdf"/>
+                            </div>
+                            `;
+                            style = 'style="max-width: 312px;"';
+                        }
+                        else {
+                            media = "";
+                            style = "";
+                        }
                     }
                     else {
                         media = "";
@@ -202,12 +217,7 @@ socket.on('show-chats', function(chats) {
     chats.forEach(chat => {
         listItem = document.createElement("div");
         listItem.setAttribute("class", "list-item");
-        if(contactsImage[position] != null){
-            img = 'style="background-image: url(' + contactsImage[position] + ');"';
-        }
-        else {
-            img = '';
-        }
+        img = 'style="background-image: url(' + contactsImage[position] + ');"';
         position++;
         name = chat.name;
         if(name.length>35) {
