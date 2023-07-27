@@ -57,6 +57,8 @@ socket.on('save-messages', function(messages) {
     ];
     let media;
     let style;
+    let body;
+    let substring;
     for (let i=0; i<messages.length; i++) {
         chatElements[i] = [];
         for (let j=0; j<messages[i].length; j++) {
@@ -151,13 +153,8 @@ socket.on('save-messages', function(messages) {
                     }
                     else if(messages[i][j].type == "document") {
                         if(messages[i][j].body.slice(-4) == ".pdf") {
-                            media = `
-                            <div class="msg-document">
-                                <a href="data:application/pdf;base64,${media}"></a>
-                                <embed src="data:application/pdf;base64,${media}" type="application/pdf"/>
-                            </div>
-                            `;
-                            style = 'style="max-width: 312px;"';
+                            media = `<embed class="msg-document" src="data:application/pdf;base64,${media}" type="application/pdf"/>`;
+                            style = 'style="max-width: 582px;"';
                         }
                         else {
                             media = "";
@@ -178,11 +175,33 @@ socket.on('save-messages', function(messages) {
                 media = "";
                 style = "";
             }
+            body = messages[i][j].body;
+            if(body.includes("http")) {
+                body = messages[i][j].body.substring(0, messages[i][j].body.indexOf("http"));
+                substring = messages[i][j].body.substring(messages[i][j].body.indexOf("http"));
+                while(substring.includes("http")) {
+                    if(substring.indexOf("http") != 0) {
+                        body += substring.substring(0, substring.indexOf("http"));
+                        substring = substring.substring(substring.indexOf("http"));
+                    }
+                    if(substring.includes(" ")) {
+                        body += `<a target="_blank" href="${substring.substring(0, substring.indexOf(" ")-1)}">${substring.substring(0, substring.indexOf(" ")-1)}</a>`;
+                        substring = substring.substring(substring.indexOf(" "));
+                        if(!substring.includes("http")) {
+                            body += substring;
+                        }
+                    }
+                    else {
+                        body += `<a target="_blank" href="${substring.substring(substring.indexOf("http"))}">${substring.substring(substring.indexOf("http"))}</a>`;
+                        substring = "";
+                    }
+                }
+            }
             elem.innerHTML += `
                 <div class="msg-body">
                     ${media}
                     <div class="msg-normal" ${style}>
-                        <div class="msg-text">${messages[i][j].body}</div>
+                        <div class="msg-text">${body}</div>
                         <div class="msg-time">${messageTimestamp}</div>
                     </div>
                 </div>

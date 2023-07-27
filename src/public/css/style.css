@@ -648,18 +648,8 @@ body {
 }
 
 .msg-document {
-    position: relative;
-}
-
-.msg-document a {
-    position : absolute;
-    top : 0;
-    left : 0;
-    width : calc(100% - 17.5px);
-    height : calc(100% - 10px);
-}
-
-.msg-document embed {
+    width: 600px;
+    height: 450px;
     border-radius: 7.5px;
     margin-bottom: 5px;
 }
@@ -674,6 +664,11 @@ body {
     margin-bottom: 5px;
     font-size: 14.2px;
     color: var(--text-primary);
+}
+
+.msg-text a {
+    text-decoration: none;
+    font-weight: 600;
 }
 
 .msg-time {
