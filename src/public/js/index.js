@@ -32,7 +32,7 @@ function getMedia(id) {
     let media = null;
     for (let i=0; i<msgMedia.length && media == null; i++) {
         if(msgMedia[i].id == id) {
-            media = msgMedia[i].data;
+            media = msgMedia[i];
         }
     }
     return media;
@@ -130,35 +130,35 @@ socket.on('save-messages', function(messages) {
                 media = getMedia(messages[i][j].id.id);
                 if(media) {
                     if(messages[i][j].type == "image") {
-                        media = `<img class="msg-image" src="data:image/png;base64,${media}"/>`;
+                        media = `<img class="msg-image" src="data:image/png;base64,${media.data}"/>`;
                         style = 'style="max-width: 312px;"';
                     }
                     else if(messages[i][j].type == "sticker") {
-                        media = `<img class="msg-sticker" src="data:image/png;base64,${media}"/>`;
+                        media = `<img class="msg-sticker" src="data:image/png;base64,${media.data}"/>`;
                         style = "";
                     }
                     else if(messages[i][j].type == "video") {
                         if(messages[i][j].isGif) {
-                            media = `<video class="msg-video" src="data:video/mp4;base64,${media}" controls loop muted disablePictureInPicture controlsList="nofullscreen nodownload noplaybackrate"></video>`;
+                            media = `<video class="msg-video" src="data:video/mp4;base64,${media.data}" controls loop muted disablePictureInPicture controlsList="nofullscreen nodownload noplaybackrate"></video>`;
                             style = 'style="max-width: 312px;"';
                         }
                         else {
-                            media = `<video class="msg-video" src="data:video/mp4;base64,${media}" controls disablePictureInPicture controlsList="nodownload noplaybackrate"></video>`;
+                            media = `<video class="msg-video" src="data:video/mp4;base64,${media.data}" controls disablePictureInPicture controlsList="nodownload noplaybackrate"></video>`;
                             style = 'style="max-width: 312px;"';
                         }
                     }
-                    else if(messages[i][j].type == "ptt") {
-                        media = `<audio class="msg-audio" src="data:audio/mpeg;base64,${media}" controls controlsList="nodownload noplaybackrate"></audio>`;
+                    else if(messages[i][j].type == "ptt" || messages[i][j].type == "audio") {
+                        media = `<audio class="msg-audio" src="data:audio/mpeg;base64,${media.data}" controls controlsList="nodownload noplaybackrate"></audio>`;
                         style = "";
                     }
                     else if(messages[i][j].type == "document") {
-                        if(messages[i][j].body.slice(-4) == ".pdf") {
-                            media = `<embed class="msg-document" src="data:application/pdf;base64,${media}" type="application/pdf"/>`;
+                        if(media.filename.slice(-4) == ".pdf") {
+                            media = `<embed class="msg-pdf" src="data:application/pdf;base64,${media.data}" type="application/pdf"/>`;
                             style = 'style="max-width: 582px;"';
                         }
                         else {
-                            media = "";
-                            style = "";
+                            media = `<a class="msg-document" href="data:application/octet-stream;base64,${media.data}" download="${media.filename}"><i class="bi bi-cloud-arrow-down"></i><div class="text">${media.filename}</div><div class="bg"></div></a>`;
+                            style = 'style="max-width: 312px;"';
                         }
                     }
                     else {
@@ -247,6 +247,46 @@ socket.on('show-chats', function(chats) {
         if(lastMessageBody.length>35) {
             lastMessageBody = lastMessageBody.substring(0, 35);
             lastMessageBody += "...";
+        }
+        if(chat.lastMessage.hasMedia) {
+            if(chat.lastMessage.type == "image") {
+                if(lastMessageBody == "") {
+                    lastMessageBody = "Imagen";
+                }
+                lastMessageBody = '<i class="bi bi-image"></i>' + lastMessageBody;
+            }
+            else if(chat.lastMessage.type == "sticker") {
+                if(lastMessageBody == "") {
+                    lastMessageBody = "Sticker";
+                }
+                lastMessageBody = '<i class="bi bi-sticky"></i>' + lastMessageBody;
+            }
+            else if(chat.lastMessage.type == "video") {
+                if(chat.lastMessage.isGif) {
+                    if(lastMessageBody == "") {
+                        lastMessageBody = "Gif";
+                    }
+                    lastMessageBody = '<i class="bi bi-filetype-gif"></i>' + lastMessageBody;
+                }
+                else {
+                    if(lastMessageBody == "") {
+                        lastMessageBody = "Vídeo";
+                    }
+                    lastMessageBody = '<i class="bi bi-film"></i>' + lastMessageBody;
+                }
+            }
+            else if(chat.lastMessage.type == "ptt" || chat.lastMessage.type == "audio") {
+                if(lastMessageBody == "") {
+                    lastMessageBody = "Audio";
+                }
+                lastMessageBody = '<i class="bi bi-soundwave"></i>' + lastMessageBody;
+            }
+            else if(chat.lastMessage.type == "document") {
+                if(lastMessageBody == "") {
+                    lastMessageBody = "Documento";
+                }
+                lastMessageBody = '<i class="bi bi-file-zip"></i>' + lastMessageBody;
+            }
         }
         dateFormat = new Date(chat.lastMessage.timestamp * 1000);
         currentDate = new Date();
@@ -354,12 +394,11 @@ socket.on('client-ready', function() {
                 --filter-primary: invert(11%) sepia(14%) saturate(1386%) hue-rotate(158deg) brightness(94%) contrast(85%);
                 --filter-secondary: invert(24%) sepia(86%) saturate(653%) hue-rotate(126deg) brightness(95%) contrast(103%);
                 --filter-tertiary: invert(88%) sepia(10%) saturate(176%) hue-rotate(184deg) brightness(110%) contrast(87%);
+                --opacity: 0.06;
+                --loading: url(../img/loading-dark.gif);
+                --reload: url(../img/reload-dark.gif);
             `;
             document.documentElement.style.cssText = styles;
-            document.getElementsByClassName('qr-bg')[0].style.opacity = "0.06";
-            document.getElementsByClassName('qr-img')[0].style.background = "url(../img/loading-dark.gif)";
-            document.getElementsByClassName('chat-bg')[0].style.opacity = "0.06";
-            document.getElementsByClassName('reload-gif')[0].style.background = "url(../img/reload-dark.gif)";
         }
         else {
             let styles = `
@@ -384,12 +423,11 @@ socket.on('client-ready', function() {
                 --filter-primary: invert(99%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(109%) contrast(101%);
                 --filter-secondary: invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%);
                 --filter-tertiary: invert(8%) sepia(13%) saturate(1671%) hue-rotate(159deg) brightness(91%) contrast(93%);
+                --opacity: 0.4;
+                --loading: url(../img/loading-light.gif);
+                --reload: url(../img/reload-light.gif);
             `;
             document.documentElement.style.cssText = styles;
-            document.getElementsByClassName('qr-bg')[0].style.opacity = "0.4";
-            document.getElementsByClassName('qr-img')[0].style.background = "url(../img/loading-light.gif)";
-            document.getElementsByClassName('chat-bg')[0].style.opacity = "0.4";
-            document.getElementsByClassName('reload-gif')[0].style.background = "url(../img/reload-light.gif)";
         }
     });
 });

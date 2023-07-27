@@ -36,6 +36,10 @@
     --filter-secondary: invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%);  /* invert(24%) sepia(86%) saturate(653%) hue-rotate(126deg) brightness(95%) contrast(103%)      invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%)*/
     --filter-tertiary: invert(8%) sepia(13%) saturate(1671%) hue-rotate(159deg) brightness(91%) contrast(93%);    /* invert(88%) sepia(10%) saturate(176%) hue-rotate(184deg) brightness(110%) contrast(87%)      invert(8%) sepia(13%) saturate(1671%) hue-rotate(159deg) brightness(91%) contrast(93%)*/
 
+    --opacity: 0.4;                             /*0.06 0.4*/
+    --loading: url(../img/loading-light.gif);   /*loading-dark.gif loading-light.gif*/
+    --reload: url(../img/reload-light.gif);     /*reload-dark.gif reload-light.gif*/
+
     scroll-behavior: smooth;
 }
 
@@ -46,7 +50,7 @@ body {
 }
 
 .whatsapp-qr {
-    display: flex;                    /*none*/
+    display: flex;
     width: 100vw;
     height: 100vh;
     background-color: var(--chat-background);
@@ -56,7 +60,7 @@ body {
 .qr-bg {
     width: 100%;
     height: 100%;
-    opacity: 0.4;                    /*0.06 0.4*/
+    opacity: var(--opacity);
     background-image: url(../img/background.png);
 }
 
@@ -107,14 +111,14 @@ body {
 .qr-img {
     width: 200px;
     height: 200px;
-    background-image: url(../img/loading-light.gif);          /*loading-dark.gif loading-light.gif*/
+    background-image: var(--loading);
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
 }
 
 .whatsapp-reload {
-    display: none;                    /*flex*/
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -138,7 +142,7 @@ body {
 .reload-gif {
     width: 200px;
     height: 200px;
-    background-image: url(../img/reload-light.gif);          /*reload-dark.gif reload-light.gif*/
+    background-image: var(--reload);
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -150,7 +154,7 @@ body {
 }
 
 .whatsapp-container {
-    display: none;                    /*flex*/
+    display: none;
 }
 
 .whatsapp-menu {
@@ -312,6 +316,12 @@ body {
 .list-item-last-msg {
     font-size: 14px;
     color: var(--text-tertiary);
+}
+
+.list-item-last-msg i {
+    font-size: 14px;
+    color: var(--text-tertiary);
+    margin-right: 5px;
 }
 
 .list-item-info {
@@ -476,7 +486,7 @@ body {
 .chat-bg {
     width: 100%;
     height: 100%;
-    opacity: 0.4;                    /*0.06 0.4*/
+    opacity: var(--opacity);
     background-image: url(../img/background.png);
 }
 
@@ -647,11 +657,76 @@ body {
     text-shadow: none;
 }
 
-.msg-document {
+.msg-pdf {
     width: 600px;
     height: 450px;
     border-radius: 7.5px;
     margin-bottom: 5px;
+}
+
+.msg-document {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 330px;
+    height: 200px;
+    border-radius: 7.5px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    position: relative;
+}
+
+.sent-conversation .msg-document {
+    background-color: var(--message-background-tertiary);
+}
+
+.get-conversation .msg-document {
+    background-color: var(--message-background-fourth);
+}
+
+.msg-document i {
+    font-size: 60px;
+    color: var(--icon-primary);
+    padding: 10px 20px;
+    border-radius: 50%;
+    border: 4px solid var(--icon-primary);
+    z-index: 1;
+}
+
+.sent-conversation .msg-document i {
+    background-color: var(--message-background-tertiary);
+}
+
+.get-conversation .msg-document i {
+    background-color: var(--message-background-fourth);
+}
+
+.msg-document .text {
+    margin-top: 10px;
+    font-size: 14.2px;
+    color: var(--icon-primary);
+    padding: 5px;
+    z-index: 1;
+}
+
+.sent-conversation .msg-document .text {
+    background-color: var(--message-background-tertiary);
+}
+
+.get-conversation .msg-document .text {
+    background-color: var(--message-background-fourth);
+}
+
+.msg-document .bg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: var(--opacity);
+    background-image: url(../img/background.png);
+    z-index: 0;
 }
 
 .msg-normal {
