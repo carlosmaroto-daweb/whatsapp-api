@@ -1,0 +1,115 @@
+Object
+ack: 0
+author: "34638282692@c.us"
+body: ""
+deviceType: "android"
+forwardingScore: 0
+from: "34638282692@c.us"
+fromMe: true
+hasMedia: false
+hasQuotedMsg: false
+hasReaction: false
+id: {
+  fromMe: true, 
+  remote: '34638282692-1562076129@g.us', 
+  id: '49B9B2826E28886238DF93B904523E92', 
+  participant: {…}, 
+  _serialized: 'true_34638282692-1562076129@g.us_49B9B2826E28886238DF93B904523E92_34638282692@c.us'
+}
+isForwarded: false
+isGif: false
+isStarred: false
+isStatus: false
+links: []
+mentionedIds: []
+timestamp: 1687886114
+to: "34638282692-1562076129@g.us"
+type: "e2e_notification"
+vCards: []
+_data: {
+  id: {…}, 
+  rowId: 999999845, 
+  type: 'e2e_notification', 
+  subtype: 'encrypt', 
+  t: 1687886114, …
+}
+[[Prototype]]: Object
+
+
+Object
+ack: 0
+author: "34638282692@c.us"
+body: "Yo"
+deviceType: "android"
+forwardingScore: 0
+from: "34638282692@c.us"
+fromMe: true
+hasMedia: false
+hasQuotedMsg: false
+hasReaction: false
+id: {
+  fromMe: true, 
+  remote: '34638282692-1562076129@g.us', 
+  id: '6BC2CA0D3C5039236930EB8DBADEB501', 
+  participant: {…}, 
+  _serialized: 'true_34638282692-1562076129@g.us_6BC2CA0D3C5039236930EB8DBADEB501_34638282692@c.us'
+}
+isForwarded: false
+isGif: false
+isStarred: false
+isStatus: false
+links: []
+length: 0
+[[Prototype]]: Array(0)
+mentionedIds: []
+length: 0
+[[Prototype]]: Array(0)
+timestamp: 1562076191
+to: "34638282692-1562076129@g.us"
+type: "gp2"
+vCards: []
+_data: {
+  id: {…}, 
+  rowId: 999999846, 
+  body: 'Yo', 
+  type: 'gp2', 
+  subtype: 'create',
+ …}
+[[Prototype]]: Object
+
+
+Objectack: 0
+author: "34638282692@c.us"
+body: ""
+deviceType: "android"
+forwardingScore: 0
+from: "34638282692@c.us"
+fromMe: true
+hasMedia: false
+hasQuotedMsg: false
+hasReaction: false
+id: {
+  fromMe: true, 
+  remote: '34638282692-1562076129@g.us', 
+  id: '6020FAEF0163AA95C0A37ED81EAB5CF5', 
+  participant: {…}, 
+  _serialized: 'true_34638282692-1562076129@g.us_6020FAEF0163AA95C0A37ED81EAB5CF5_34638282692@c.us'
+}
+isForwarded: false
+isGif: false
+isStarred: false
+isStatus: false
+links: []
+mentionedIds: []
+timestamp: 1689234795
+to: "34638282692-1562076129@g.us"
+type: "revoked"
+vCards: []
+_data: {
+  id: {…}, 
+  rowId: 999999847, 
+  type: 'revoked', 
+  subtype: 'sender', 
+  t: 1689234795,
+ …}
+[[Prototype]]: Object
