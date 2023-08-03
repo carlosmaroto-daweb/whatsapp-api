@@ -22,15 +22,7 @@ server.listen(3000, function(){
 
 io.on('connection', function(socketClient){
   console.log("Alguien se ha conectado con Sockets");
-  /*
-  socket.emit('messages', messages);
-
-  socket.on('new-message', function(data){
-    messages.push(data);
-
-    io.sockets.emit('messages', messages);
-  });
-  */
+  
   const MONGODB_URI = process.env.MONGODB_URI;
 
   mongoose.connect(MONGODB_URI).then(() => {
