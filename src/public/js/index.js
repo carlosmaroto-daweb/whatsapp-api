@@ -522,13 +522,3 @@ socket.on('client-ready', function() {
         }
     });
 });
-
-/*
-function addMessage(e) {
-    var payload = {
-        author: document.getElementById('').value,
-        text: document.getElementById('').value
-    }
-    socket.emit('new-messages', payload);
-    return false;
-}*/
