@@ -10,8 +10,99 @@ socket.on('qr', function(data) {
 });
 
 socket.on('chat-reload', function() {
-    document.getElementsByClassName('whatsapp-qr')[0].style.display = "none";
-    document.getElementsByClassName('whatsapp-reload')[0].style.display = "flex";
+    document.body.innerHTML = `
+        <!-- Whatsapp Reload -->
+        <div class="whatsapp-reload">
+            <div class="reload-icons">
+                <i class="bi bi-whatsapp"></i>
+                <div class="reload-gif"></div>
+                <i class="bi bi-laptop"></i>
+            </div>
+            <h3>Cargando tus chats...</h3>
+        </div>
+        <div class="whatsapp-container">
+            <!-- Whatsapp Menu -->
+            <div class="whatsapp-menu">
+                <!-- Option Menu -->
+                <div class="option-menu">
+                    <div class="profile"></div>
+                    <ul class="option-menu-list">
+                        <li class="option-menu-item">
+                            <i class="bi bi-chat-right-dots-fill"></i>
+                        </li>
+                        <li class="option-menu-item">
+                            <i class="bi bi-megaphone-fill"></i>
+                        </li>
+                        <li class="option-menu-item">
+                            <i class="bi bi-alarm-fill"></i>
+                        </li>
+                        <li class="option-menu-item">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Search -->
+                <div class="search-form">
+                    <div class="chat-search-container">
+                        <i class="bi bi-search"></i>
+                        <input class="chat-search" type="text" placeholder="Busca un chat o inicia uno nuevo.">
+                    </div>
+                    <div class="chat-search-option">
+                        <i class="bi bi-filter"></i>
+                    </div>
+                </div>
+                <!-- Chat Lists -->
+                <div class="chat-lists">
+                </div>
+            </div>
+            <!-- Chat Window -->
+            <div class="chat-window">
+                <!-- Chat Option -->
+                <div class="chat-option">
+                    <div class="chat-data">
+                        <div class="chat-data-profile"></div>
+                        <div class="chat-data-text">
+                            <div class="chat-data-name">Example name</div>
+                            <div class="chat-data-status">en línea</div>
+                        </div>
+                    </div>
+                    <ul class="chat-option-list">
+                        <li class="theme-switch">
+                            <label class="light-theme" for="theme-mode"><i class="bi bi-sun-fill"></i></label>
+                            <input id="theme-mode" class="theme-mode" type="checkbox">
+                            <label class="dark-theme" for="theme-mode"><i class="bi bi-moon-fill"></i></label>
+                        </li>
+                        <li class="chat-option-item">
+                            <i class="bi bi-search"></i>
+                        </li>
+                        <li class="chat-option-item">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Chat Body -->
+                <div class="chat-body">
+                    <div class="chat-bg"></div>
+                    <div class="list-msg">
+                        <div class="individual-chats-bg">
+                            <i class="bi bi-chat-right-dots-fill"></i>
+                            <h2>Mensajes individuales</h2>
+                            <h4>Habla con tus contactos o grupos de WhatsApp.</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Keyboard -->
+                <div class="keyboard">
+                    <i class="bi bi-emoji-smile"></i>
+                    <i class="bi bi-paperclip"></i>
+                    <div class="input-text-container">
+                        <input class="input-text" type="text" placeholder="Escribe un mensaje aquí">
+                    </div>
+                    <i class="bi bi-mic"></i>
+                </div>
+            </div>
+        </div>
+    `;
 });
 
 socket.on('save-client-image', function(clientImage) {
