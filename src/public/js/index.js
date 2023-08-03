@@ -6,7 +6,7 @@ var chatElements = [];
 socket.on('qr', function(data) {
     document.getElementsByClassName('qr-img')[0].style.width = "340px";
     document.getElementsByClassName('qr-img')[0].style.height = "340px";
-    document.getElementsByClassName('qr-img')[0].style.background = 'url(data:image/png;base64,'+data+')';
+    document.getElementsByClassName('qr-img')[0].style.background = 'url(data:image/png;base64,' + data + ')';
 });
 
 socket.on('chat-reload', function() {
