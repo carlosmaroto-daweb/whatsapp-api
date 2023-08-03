@@ -94,7 +94,7 @@ body {
     margin: 0px;
 }
 
-.step{
+.step {
     margin: 20px 0px;
     font-size: 16px;
     color: var(--text-primary);
@@ -571,7 +571,7 @@ body {
     position: relative;
 }
 
-.get-conversation .msg-body:nth-child(1)::before{
+.get-conversation .msg-body:nth-child(1)::before {
     content: "";
     width: 16px;
     height: 16px;
@@ -591,7 +591,7 @@ body {
     position: relative;
 }
 
-.sent-conversation .msg-body:nth-child(1)::after{
+.sent-conversation .msg-body:nth-child(1)::after {
     content: "";
     width: 16px;
     height: 16px;
