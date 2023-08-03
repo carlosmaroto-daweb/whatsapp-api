@@ -1,44 +1,44 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
 
 :root {
-    --background-primary: #ffffff;            /*#111b21 #ffffff*/
-    --background-secondary: #fffffff2;        /*#182229 #fffffff2*/
-    --background-tertiary: #f0f2f5;           /*#202c33 #f0f2f5*/
-    --background-fourth: #e4e5e9;             /*#2a3942 #e4e5e9*/
-    --background-fifth: #00000029;            /*#ffffff29 #00000029*/
+    --background-primary: #ffffff;
+    --background-secondary: #fffffff2;
+    --background-tertiary: #f0f2f5;
+    --background-fourth: #e4e5e9;
+    --background-fifth: #00000029;
 
-    --chat-background: #eae6df;               /*#0b141a #eae6df*/
+    --chat-background: #eae6df;
 
-    --border-primary: #ffffff;                /*#111b21 #ffffff*/
-    --border-secondary: #d1d7db;              /*#6b778056 #d1d7db*/
+    --border-primary: #ffffff;
+    --border-secondary: #d1d7db;
     --border-tertiary: #8696a026;
 
-    --text-primary: #111b21;                  /*#e9edef #111b21*/
-    --text-secondary: #3b4a54;                /*#d1d7db #3b4a54*/
-    --text-tertiary: #667781;                 /*#8696a0 #667781*/
+    --text-primary: #111b21;
+    --text-secondary: #3b4a54;
+    --text-tertiary: #667781;
 
-    --icon-primary: #54656f;                  /*#aebac1 #54656f*/
+    --icon-primary: #54656f;
     --icon-secondary: #8696a0;
 
     --notification-text: #54656f;
     --notification-background: #ffeecd;
 
-    --unseen-messages: #1fa855;               /*#00a884 #1fa855*/
-    --message-background-primary: #d9fdd3;    /*#005c4b #d9fdd3*/
-    --message-background-secondary: #ffffff;  /*#202c33 #ffffff*/
-    --message-background-tertiary: #c2fab8;   /*#006d59 #c2fab8*/
-    --message-background-fourth: #f0f2f5;     /*#2a3942 #f0f2f5*/
+    --unseen-messages: #1fa855;
+    --message-background-primary: #d9fdd3;
+    --message-background-secondary: #ffffff;
+    --message-background-tertiary: #c2fab8;
+    --message-background-fourth: #f0f2f5;
     
-    --theme-mode: #1fa855;                    /*#00a884 #1fa855*/
+    --theme-mode: #1fa855;
 
-    --filter-primary: invert(99%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(109%) contrast(101%);      /* invert(11%) sepia(14%) saturate(1386%) hue-rotate(158deg) brightness(94%) contrast(85%)      invert(99%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(109%) contrast(101%)*/
-    --filter-secondary: invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%);  /* invert(24%) sepia(86%) saturate(653%) hue-rotate(126deg) brightness(95%) contrast(103%)      invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%)*/
-    --filter-tertiary: invert(8%) sepia(13%) saturate(1671%) hue-rotate(159deg) brightness(91%) contrast(93%);    /* invert(88%) sepia(10%) saturate(176%) hue-rotate(184deg) brightness(110%) contrast(87%)      invert(8%) sepia(13%) saturate(1671%) hue-rotate(159deg) brightness(91%) contrast(93%)*/
+    --filter-primary: invert(99%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(109%) contrast(101%);
+    --filter-secondary: invert(89%) sepia(27%) saturate(292%) hue-rotate(61deg) brightness(105%) contrast(103%);
+    --filter-tertiary: invert(8%) sepia(13%) saturate(1671%) hue-rotate(159deg) brightness(91%) contrast(93%);
 
-    --opacity: 0.4;                             /*0.06 0.4*/
-    --loading: url(../img/loading-light.gif);   /*loading-dark.gif loading-light.gif*/
-    --reload: url(../img/reload-light.gif);     /*reload-dark.gif reload-light.gif*/
+    --opacity: 0.4;
+    --loading: url(../img/loading-light.gif);
+    --reload: url(../img/reload-light.gif);
 
     scroll-behavior: smooth;
 }
