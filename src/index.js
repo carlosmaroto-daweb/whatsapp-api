@@ -11,7 +11,7 @@ const fs = require("fs");
 
 var chats;
 var messages = [];
-var contactsImage = [];
+var chatsImage = [];
 var msgMedia = [];
 
 app.use(express.static('public'));
@@ -71,8 +71,8 @@ io.on('connection', function(socketClient){
       .then(allChats => setMsg(allChats))
       .then(() => getClientImage())
       .then(clientImage => socketClient.emit('save-client-image', clientImage))
-      .then(() => setContactsImage())
-      .then(() => socketClient.emit('save-contacts-image', contactsImage))
+      .then(() => setChatsImage())
+      .then(() => socketClient.emit('save-chats-image', chatsImage))
       .then(() => setMsgMedia())
       .then(() => socketClient.emit('save-msg-media', msgMedia))
       .then(() => socketClient.emit('save-messages', messages))
@@ -105,18 +105,18 @@ io.on('connection', function(socketClient){
       return clientImage;
     }
 
-    async function setContactsImage() {
-      console.log('Contacts images is saving...');
+    async function setChatsImage() {
+      console.log('Chats images is saving...');
       let contact;
       let img;
       for (let i=0; i<chats.length; i++) {
         contact = await chats[i].getContact();
         img = await contact.getProfilePicUrl();
         if(img) {
-          contactsImage[i] = img;
+          chatsImage[i] = img;
         }
         else {
-          contactsImage[i] = "../img/default-profile-picture.jpg";
+          chatsImage[i] = "../img/default-profile-picture.jpg";
         }
       }
     }

@@ -1,5 +1,5 @@
 const socket = io.connect('http://localhost:3000', {'forceNew' : true});
-var contactsImage;
+var chatsImage;
 var msgMedia;
 var chatElements = [];
 
@@ -117,8 +117,8 @@ socket.on('save-client-image', function(clientImage) {
     }
 });
 
-socket.on('save-contacts-image', function(contactsImageSent) {
-    contactsImage = contactsImageSent;
+socket.on('save-chats-image', function(chatsImageSent) {
+    chatsImage = chatsImageSent;
 });
 
 socket.on('save-msg-media', function(msgMediaSent) {
@@ -152,7 +152,7 @@ socket.on('save-messages', function(messages) {
         'VIERNES',
         'SÁBADO',
     ];
-    let groupParticipant;
+    let groupParticipant =  "";
     let media;
     let style;
     let body;
@@ -352,7 +352,7 @@ socket.on('show-chats', function(chats) {
     chats.forEach(chat => {
         listItem = document.createElement("div");
         listItem.setAttribute("class", "list-item");
-        img = 'style="background-image: url(' + contactsImage[position] + ');"';
+        img = 'style="background-image: url(' + chatsImage[position] + ');"';
         position++;
         name = chat.name;
         if(name.length>35) {
@@ -451,7 +451,7 @@ socket.on('show-chats', function(chats) {
                 if(i==j && listItems[j].getAttribute("class") != "list-item active") {
                     listItems[i].setAttribute("class", "list-item active");
                     document.getElementsByClassName('chat-option')[0].style.display = "flex";
-                    document.getElementsByClassName('chat-data-profile')[0].setAttribute("style", "background-image: url(" + contactsImage[i] + ");");
+                    document.getElementsByClassName('chat-data-profile')[0].setAttribute("style", "background-image: url(" + chatsImage[i] + ");");
                     document.getElementsByClassName('chat-data-name')[0].textContent = listItems[i].getElementsByClassName('list-item-name')[0].textContent;
                     document.getElementsByClassName('chat-body')[0].style.height = "calc(100vh - 122px)";
                     document.getElementsByClassName('keyboard')[0].style.display = "flex";
