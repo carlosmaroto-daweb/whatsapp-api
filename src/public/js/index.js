@@ -27,7 +27,7 @@ socket.on('chat-reload', function() {
                 <div class="option-menu">
                     <div class="profile"></div>
                     <ul class="option-menu-list">
-                        <li class="option-menu-item">
+                        <li class="option-menu-item active">
                             <i class="bi bi-chat-right-dots-fill"></i>
                         </li>
                         <li class="option-menu-item">
@@ -93,12 +93,18 @@ socket.on('chat-reload', function() {
                 </div>
                 <!-- Keyboard -->
                 <div class="keyboard">
-                    <i class="bi bi-emoji-smile"></i>
-                    <i class="bi bi-paperclip"></i>
+                    <div class="option-keyboard-item">
+                        <i class="bi bi-emoji-smile"></i>
+                    </div>
+                    <div class="option-keyboard-item">
+                        <i class="bi bi-paperclip"></i>
+                    </div>
                     <div class="input-text-container">
                         <input class="input-text" type="text" placeholder="Escribe un mensaje aquí">
                     </div>
-                    <i class="bi bi-mic"></i>
+                    <div class="option-keyboard-item">
+                        <i class="bi bi-mic"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -146,6 +152,7 @@ socket.on('save-messages', function(messages) {
         'VIERNES',
         'SÁBADO',
     ];
+    let groupParticipant;
     let media;
     let style;
     let body;
@@ -197,17 +204,33 @@ socket.on('save-messages', function(messages) {
                 elem = document.createElement("div");
                 if (!messages[i][j].fromMe){
                     elem.setAttribute("class", "get-conversation");
+                    if(messages[i][j].id.participant) {
+                        groupParticipant = `
+                            <div class="group-participant-info">
+                                <div class="img-profile"></div>
+                                <div class="name-profile">${messages[i][j].id.participant.user}</div>
+                            </div>
+                        `;
+                    }
                 } else if (messages[i][j].fromMe){
                     elem.setAttribute("class", "sent-conversation");
                 }
             }
             else {
-                if (!messages[i][j].fromMe && (j==0 || messages[i][j-1].fromMe)){
+                if (!messages[i][j].fromMe && (j==0 || messages[i][j-1].fromMe || (messages[i][j].id.participant && (messages[i][j-1].id.participant.user != messages[i][j].id.participant.user)) )){
                     if(j!=0) {
                         chatElements[i].push(elem);
                     }
                     elem = document.createElement("div");
                     elem.setAttribute("class", "get-conversation");
+                    if(messages[i][j].id.participant) {
+                        groupParticipant = `
+                            <div class="group-participant-info">
+                                <div class="img-profile"></div>
+                                <div class="name-profile">${messages[i][j].id.participant.user}</div>
+                            </div>
+                        `;
+                    }
                 } else if (messages[i][j].fromMe && (j==0 || !messages[i][j-1].fromMe)){
                     if(j!=0) {
                         chatElements[i].push(elem);
@@ -290,6 +313,7 @@ socket.on('save-messages', function(messages) {
             }
             elem.innerHTML += `
                 <div class="msg-body">
+                    ${groupParticipant}
                     ${media}
                     <div class="msg-normal" ${style}>
                         <div class="msg-text">${body}</div>
@@ -297,6 +321,7 @@ socket.on('save-messages', function(messages) {
                     </div>
                 </div>
             `;
+            groupParticipant = "";
         }
         chatElements[i].push(elem);
     }
