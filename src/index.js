@@ -14,6 +14,7 @@ var messages = [];
 var chatsImage = [];
 var contacts = [];
 var msgMedia = [];
+var quoted = [];
 
 app.use(express.static('public'));
 
@@ -78,6 +79,8 @@ io.on('connection', function(socketClient){
       .then(() => socketClient.emit('save-contacts', contacts))
       .then(() => setMsgMedia())
       .then(() => socketClient.emit('save-msg-media', msgMedia))
+      .then(() => setQuotedMessages())
+      .then(() => socketClient.emit('save-quoted-messages', quoted))
       .then(() => socketClient.emit('save-messages', messages))
       .then(() => socketClient.emit('show-chats', chats))
       .then(() => socketClient.emit('client-ready'));
@@ -88,6 +91,24 @@ io.on('connection', function(socketClient){
       chats = allChats;
       for (let i=0; i<chats.length; i++) {
         messages[i] = await chats[i].fetchMessages({limit: 25}); // ({limit: Number.MAX_SAFE_INTEGER});
+      }
+    }
+
+    async function setQuotedMessages() {
+      console.log('Quoted messages is saving...');
+      let count = 0;
+      let msg;
+      for (let i=0; i<messages.length; i++) {
+        for (let j=0; j<messages[i].length; j++) {
+          if(messages[i][j].hasQuotedMsg) {
+            msg = await messages[i][j].getQuotedMessage();
+            quoted[count] = {
+              "id": messages[i][j].id.id,
+              "msg": msg
+            };
+            count++;
+          }
+        }
       }
     }
 

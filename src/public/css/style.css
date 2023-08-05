@@ -632,13 +632,14 @@ body {
 
 .group-participant-info {
     align-self: flex-start;
+    width: calc(100% - 20px);
     background-color: var(--message-background-fourth);
     border-radius: 7.5px;
     padding: 5px 10px;
     margin-bottom: 5px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     cursor: pointer;
 }
 
@@ -657,6 +658,57 @@ body {
     font-weight: 600;
     color: var(--text-primary);
     margin-left: 10px;
+}
+
+.quoted {
+    align-self: flex-start;
+    width: calc(100% - 25px);
+    border-radius: 7.5px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-left: 5px solid var(--theme-mode);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.sent-conversation .quoted {
+    background-color: var(--message-background-tertiary);
+}
+
+.get-conversation .quoted {
+    background-color: var(--message-background-fourth);
+}
+
+.quoted-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.quoted-profile-img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-image: url(../img/default-profile-picture.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.quoted-profile-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-left: 5px;
+}
+
+.quoted-msg {
+    font-size: 10px;
+    color: var(--text-secondary);
 }
 
 .msg-image {

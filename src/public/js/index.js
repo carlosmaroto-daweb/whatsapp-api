@@ -2,6 +2,7 @@ const socket = io.connect('http://localhost:3000', {'forceNew' : true});
 var chatsImage;
 var contacts;
 var msgMedia;
+var quoted;
 var chatElements = [];
 
 socket.on('qr', function(data) {
@@ -130,6 +131,10 @@ socket.on('save-msg-media', function(msgMediaSent) {
     msgMedia = msgMediaSent;
 });
 
+socket.on('save-quoted-messages', function(quotedSent) {
+    quoted = quotedSent;
+});
+
 function getMedia(id) {
     let media = null;
     for (let i=0; i<msgMedia.length && media == null; i++) {
@@ -138,6 +143,16 @@ function getMedia(id) {
         }
     }
     return media;
+}
+
+function getQuoted(id) {
+    let msg = null;
+    for (let i=0; i<quoted.length && msg == null; i++) {
+        if(quoted[i].id == id) {
+            msg = quoted[i].msg;
+        }
+    }
+    return msg;
 }
 
 function getContact(number) {
@@ -173,6 +188,8 @@ socket.on('save-messages', function(messages) {
     let media;
     let style;
     let body;
+    let quotedMsg;
+    let quotedBody;
     let substring;
     for (let i=0; i<messages.length; i++) {
         chatElements[i] = [];
@@ -268,6 +285,84 @@ socket.on('save-messages', function(messages) {
                     elem.setAttribute("class", "sent-conversation");
                 }
             }
+            if(messages[i][j].hasQuotedMsg) {
+                quotedMsg = getQuoted(messages[i][j].id.id);
+                if(quotedMsg.id.participant) {
+                    contact = getContact(quotedMsg.id.participant.user);
+                    if (contact.img) {
+                        contactImg = 'style="background-image: url(' + contact.img + ');"';
+                    }
+                    else {
+                        contactImg = "";
+                    }
+                }
+                else {
+                    contact = getContact(quotedMsg.from.substring(0, quotedMsg.from.indexOf('@')));
+                    if (contact.img) {
+                        contactImg = 'style="background-image: url(' + contact.img + ');"';
+                    }
+                    else {
+                        contactImg = "";
+                    }
+                }
+                quotedBody = quotedMsg.body;
+                if(quotedBody.length>35) {
+                    quotedBody = quotedBody.substring(0, 35);
+                    quotedBody += "...";
+                }
+                if(quotedMsg.hasMedia) {
+                    if(quotedMsg.type == "image") {
+                        if(quotedBody == "") {
+                            quotedBody = "Imagen";
+                        }
+                        quotedBody = '<i class="bi bi-image"></i>' + quotedBody;
+                    }
+                    else if(quotedMsg.type == "sticker") {
+                        if(quotedBody == "") {
+                            quotedBody = "Sticker";
+                        }
+                        quotedBody = '<i class="bi bi-sticky"></i>' + quotedBody;
+                    }
+                    else if(quotedMsg.type == "video") {
+                        if(quotedMsg.isGif) {
+                            if(quotedBody == "") {
+                                quotedBody = "Gif";
+                            }
+                            quotedBody = '<i class="bi bi-filetype-gif"></i>' + quotedBody;
+                        }
+                        else {
+                            if(quotedBody == "") {
+                                quotedBody = "Vídeo";
+                            }
+                            quotedBody = '<i class="bi bi-film"></i>' + quotedBody;
+                        }
+                    }
+                    else if(quotedMsg.type == "ptt" || quotedMsg.type == "audio") {
+                        if(quotedBody == "") {
+                            quotedBody = "Audio";
+                        }
+                        quotedBody = '<i class="bi bi-soundwave"></i>' + quotedBody;
+                    }
+                    else if(quotedMsg.type == "document") {
+                        if(quotedBody == "") {
+                            quotedBody = "Documento";
+                        }
+                        quotedBody = '<i class="bi bi-file-zip"></i>' + quotedBody;
+                    }
+                }
+                quotedMsg = `
+                    <a href="#${quotedMsg.id.id}" class="quoted">
+                        <div class="quoted-profile">
+                            <div class="quoted-profile-img" ${contactImg}></div>
+                            <div class="quoted-profile-name">${contact.name}</div>
+                        </div>
+                        <div class="quoted-msg">${quotedBody}</div>
+                    </a>
+                `;
+            }
+            else {
+                quotedMsg = "";
+            }
             messageTimestamp = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
             if(messages[i][j].hasMedia) {
                 media = getMedia(messages[i][j].id.id);
@@ -341,8 +436,9 @@ socket.on('save-messages', function(messages) {
                 }
             }
             elem.innerHTML += `
-                <div class="msg-body">
+                <div id="${messages[i][j].id.id}" class="msg-body">
                     ${groupParticipant}
+                    ${quotedMsg}
                     ${media}
                     <div class="msg-normal" ${style}>
                         <div class="msg-text">${body}</div>
