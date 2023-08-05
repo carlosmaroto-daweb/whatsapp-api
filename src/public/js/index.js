@@ -1,5 +1,6 @@
 const socket = io.connect('http://localhost:3000', {'forceNew' : true});
 var chatsImage;
+var contacts;
 var msgMedia;
 var chatElements = [];
 
@@ -121,6 +122,10 @@ socket.on('save-chats-image', function(chatsImageSent) {
     chatsImage = chatsImageSent;
 });
 
+socket.on('save-contacts', function(contactsSent) {
+    contacts = contactsSent;
+});
+
 socket.on('save-msg-media', function(msgMediaSent) {
     msgMedia = msgMediaSent;
 });
@@ -133,6 +138,16 @@ function getMedia(id) {
         }
     }
     return media;
+}
+
+function getContact(number) {
+    let contact = null;
+    for (let i=0; i<contacts.length && contact == null; i++) {
+        if(contacts[i].number == number) {
+            contact = contacts[i];
+        }
+    }
+    return contact;
 }
 
 socket.on('save-messages', function(messages) {
@@ -153,6 +168,8 @@ socket.on('save-messages', function(messages) {
         'SÁBADO',
     ];
     let groupParticipant =  "";
+    let contact;
+    let contactImg;
     let media;
     let style;
     let body;
@@ -205,10 +222,16 @@ socket.on('save-messages', function(messages) {
                 if (!messages[i][j].fromMe){
                     elem.setAttribute("class", "get-conversation");
                     if(messages[i][j].id.participant) {
+                        contact = getContact(messages[i][j].id.participant.user);
+                        if (contact.img) {
+                            contactImg = 'style="background-image: url(' + contact.img + ');"';
+                        } else {
+                            contactImg = "";
+                        }
                         groupParticipant = `
                             <div class="group-participant-info">
-                                <div class="img-profile"></div>
-                                <div class="name-profile">${messages[i][j].id.participant.user}</div>
+                                <div class="img-profile" ${contactImg}></div>
+                                <div class="name-profile">${contact.name}</div>
                             </div>
                         `;
                     }
@@ -224,10 +247,16 @@ socket.on('save-messages', function(messages) {
                     elem = document.createElement("div");
                     elem.setAttribute("class", "get-conversation");
                     if(messages[i][j].id.participant) {
+                        contact = getContact(messages[i][j].id.participant.user);
+                        if (contact.img) {
+                            contactImg = 'style="background-image: url(' + contact.img + ');"';
+                        } else {
+                            contactImg = "";
+                        }
                         groupParticipant = `
                             <div class="group-participant-info">
-                                <div class="img-profile"></div>
-                                <div class="name-profile">${messages[i][j].id.participant.user}</div>
+                                <div class="img-profile" ${contactImg}></div>
+                                <div class="name-profile">${contact.name}</div>
                             </div>
                         `;
                     }

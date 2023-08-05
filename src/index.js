@@ -12,6 +12,7 @@ const fs = require("fs");
 var chats;
 var messages = [];
 var chatsImage = [];
+var contacts = [];
 var msgMedia = [];
 
 app.use(express.static('public'));
@@ -73,6 +74,8 @@ io.on('connection', function(socketClient){
       .then(clientImage => socketClient.emit('save-client-image', clientImage))
       .then(() => setChatsImage())
       .then(() => socketClient.emit('save-chats-image', chatsImage))
+      .then(() => setContacts())
+      .then(() => socketClient.emit('save-contacts', contacts))
       .then(() => setMsgMedia())
       .then(() => socketClient.emit('save-msg-media', msgMedia))
       .then(() => socketClient.emit('save-messages', messages))
@@ -118,6 +121,30 @@ io.on('connection', function(socketClient){
         else {
           chatsImage[i] = "../img/default-profile-picture.jpg";
         }
+      }
+    }
+
+    async function setContacts() {
+      console.log('Contacts is saving...');
+      let allContacts = await client.getContacts();
+      let number;
+      let name;
+      let img;
+      for (let i=0; i<allContacts.length; i++) {
+        number = allContacts[i].id.user;
+        name = allContacts[i].name;
+        if(!allContacts[i].name) {
+          name = "~" + allContacts[i].pushname;
+        }
+        if(!allContacts[i].pushname) {
+          name = "+" +  allContacts[i].id.user;
+        }
+        img = await allContacts[i].getProfilePicUrl();
+        contacts[i] = {
+          "number": number,
+          "name": name,
+          "img": img
+        };
       }
     }
 
