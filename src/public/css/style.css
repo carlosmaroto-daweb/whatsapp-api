@@ -711,6 +711,10 @@ body {
     color: var(--text-secondary);
 }
 
+.quoted-msg i {
+    margin-right: 5px;
+}
+
 .msg-image {
     width: 330px;
     border-radius: 7.5px;

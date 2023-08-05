@@ -158,7 +158,12 @@ io.on('connection', function(socketClient){
           name = "~" + allContacts[i].pushname;
         }
         if(!allContacts[i].pushname) {
-          name = "+" +  allContacts[i].id.user;
+          if (allContacts[i].id.user == client.info.wid.user) {
+            name = "Tú";
+          }
+          else {
+            name = "+" +  allContacts[i].id.user;
+          }
         }
         img = await allContacts[i].getProfilePicUrl();
         contacts[i] = {
