@@ -850,6 +850,15 @@ body {
     color: var(--text-secondary);
 }
 
+.revoked {
+    font-style: italic;
+    color: var(--text-tertiary);
+}
+
+.revoked i {
+    margin-right: 5px;
+}
+
 .msg-time {
     min-width: 50px;
     align-self: flex-end;

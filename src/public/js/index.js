@@ -414,6 +414,9 @@ socket.on('save-messages', function(messages) {
                 style = "";
             }
             body = messages[i][j].body;
+            if(messages[i][j].type == "revoked") {
+                body = '<div class="revoked"><i class="bi bi-trash3"></i>Se eliminó este mensaje.</div>';
+            }
             if(body.includes("http")) {
                 body = messages[i][j].body.substring(0, messages[i][j].body.indexOf("http"));
                 substring = messages[i][j].body.substring(messages[i][j].body.indexOf("http"));
